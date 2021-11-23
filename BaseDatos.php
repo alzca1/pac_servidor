@@ -25,7 +25,6 @@ function authenticateUSer($username, $email)
         return $result;
     } else {
         echo "Ha habido un error con tu usuario y/o contraseña";
-        echo "<script> console.log('error en la función authenticateUser')</script>";
     }
 
     mysqli_close($DB);
@@ -73,6 +72,40 @@ function getUsers()
     $DB = createConnection("pac3_daw");
 
     $sql = "SELECT * FROM user";
+    $result = mysqli_query($DB, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        return $result;
+
+    } else {
+        echo "No hay nada en la lista de usuarios .";
+    }
+
+    mysqli_close($DB);
+}
+
+function getOrderedUsers($key, $type){
+
+    $DB = createConnection("pac3_daw");
+
+    $sql = "SELECT * FROM user ORDER BY " . $key . " " . $type ."";
+    $result = mysqli_query($DB, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        return $result;
+
+    } else {
+        echo "No hay nada en la lista de usuarios .";
+    }
+
+    mysqli_close($DB);
+}
+
+function getOrderedArticles($key, $type){
+
+    $DB = createConnection("pac3_daw");
+
+    $sql = "SELECT * FROM product ORDER BY " . $key . " " . $type ."";
     $result = mysqli_query($DB, $sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -141,7 +174,6 @@ function removeProduct($id)
     $result = mysqli_query($DB, $sql);
 
     if ($result) {
-        echo "product removed";
         return $result;
     } else {
         echo "No se ha podido eliminar el pedido de la base de datos";
@@ -158,7 +190,6 @@ function updateProduct($id, $name,$price, $cost,  $category){
     $result = mysqli_query($DB, $sql);
 
     if ($result) {
-        echo "product updated";
         return $result;
     } else {
         echo "No se ha podido actualizar el pedido de la base de datos";
@@ -180,4 +211,103 @@ function getSuperID(){
     }
 
     mysqli_close($DB);
+}
+
+
+function countUsers()
+{
+    $DB = createConnection("pac3_daw");
+
+    $sql = "SELECT COUNT(UserID) FROM user";
+    $result = mysqli_query($DB, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        return $result;
+    } else {
+        echo "No hay nada en la lista de usuarios.";
+    }
+    mysqli_close($DB);
+}
+
+
+function addUser($name, $email, $password, $enabled){
+
+    $DB = createConnection("pac3_daw");
+
+    $sql = "INSERT INTO user (FullName, Email, Password, Enabled) VALUES ('" . $name . "', '" . $email . "', '" . $password . "', '" . $enabled . "')";
+    // $sql = "INSERT INTO product (Name, Cost, Price, CategoryID) VALUES ('$name', '$cost','$price','$category')";
+    $result = mysqli_query($DB, $sql);
+
+    if ($result) {
+        return $result;
+    } else {    
+
+        echo "No se ha podido añadir el usuario a la base de datos";
+    }
+
+    mysqli_close($DB);
+
+}
+
+function getUser($id){
+    $DB = createConnection("pac3_daw");
+
+    $sql = "SELECT * FROM user WHERE UserID='" . $id . "'";
+    $result = mysqli_query($DB, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        return $result;
+    } else {
+        echo "No hay nada en la lista de artículos .";
+    }
+
+    mysqli_close($DB);
+}
+
+
+function updateUser($id, $name, $email, $password, $enabled){
+    $DB = createConnection("pac3_daw");
+
+    $sql = "UPDATE user set FullName='$name', Email='$email', Password='$password', Enabled='$enabled' WHERE UserID= '$id'";
+    $result = mysqli_query($DB, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        echo "No se ha podido actualizar el usuari@ en la base de datos";
+    }
+
+    mysqli_close($DB);
+}
+
+function removeUser($id){
+    $DB = createConnection("pac3_daw");
+
+    $sql = "DELETE FROM user WHERE UserID='". $id ."'";
+    $result = mysqli_query($DB, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        echo "No se ha podido eliminar el usuari@ de la base de datos";
+    }
+
+    mysqli_close($DB);
+}
+
+function updateLastAccess($username, $email){
+    $DB = createConnection("pac3_daw");
+
+    $today = date("Y-m-d");
+    $sql = "UPDATE user set LastAccess='$today' WHERE FullName='" . $username . "' AND Email='" . $email . "'";
+    $result = mysqli_query($DB, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        echo "No se ha podido actualizar el usuari@ en la base de datos";
+    }
+
+    mysqli_close($DB);
+
 }

@@ -31,6 +31,7 @@ if (isset($_POST["login"]) && !empty($_POST["user"]) && !empty($_POST["email"]))
     $email = $_POST["email"];
 
     $authentication = authenticateUSer($user, $email);
+    $lastAccess = updateLastAccess($user, $email);
     $userData = mysqli_fetch_assoc($authentication);
     $superIDQuery = getSuperID();
     $superID = mysqli_fetch_assoc($superIDQuery);

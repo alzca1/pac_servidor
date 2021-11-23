@@ -16,7 +16,7 @@ session_start();
 // include "BaseDatos.php";
 include "MostrarDatos.php";
 
-if (isset($_SESSION["user"]) && $_SESSION["enabled"] == 1) {
+if (isset($_SESSION["user"]) && ($_SESSION["enabled"] == 1) || isset($_SESSION["SuperAdmin"])){
 
     if (isset($_GET["edit"]) && isset($_GET["id"])) {
         $type = "edit";

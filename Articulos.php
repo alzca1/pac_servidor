@@ -33,18 +33,52 @@ include "./BaseDatos.php";
 
 if (isset($_SESSION["user"])) {
     echo "Bievenido a la sección de artículos, " . $_SESSION['user'] . "<br> <br>";
-    $articlesData = getArticles();
+
+    $key = array_keys($_GET)[0];
+    $type = array_values($_GET)[0];
+    $articlesData = null;
+
+    if ($key && $type) {
+        $articlesData = getOrderedArticles($key, $type);
+    } else {
+        $articlesData = getArticles();
+    }
 
     if (is_string($articlesData)) {
         echo $datos;
     } else {
         echo "<table>\n
                 <tr> \n
-                    <th>Id</th>\n
-                    <th>Categoría</th>\n
-                    <th>Nombre</th>\n
-                    <th>Coste</th>\n
-                    <th>Precio</th>\n";
+                    <th>Id
+                    <form action='Articulos.php' method='GET'>
+                    <button type='submit' name='ProductID' id='ProductID' value='ASC'>↑</button>
+                    <button type='submit' name='ProductID' id='ProductID' value='DESC'>↓</button>
+                    </form>
+                    </th>\n
+                    <th>Categoría
+                    <form action='Articulos.php' method='GET'>
+                    <button type='submit' name='CategoryID' id='CategoryID' value='ASC'>↑</button>
+                    <button type='submit' name='CategoryID' id='CategoryID' value='DESC'>↓</button>
+                    </form>
+                    </th>\n
+                    <th>Nombre
+                    <form action='Articulos.php' method='GET'>
+                    <button type='submit' name='Name' id='Name' value='ASC'>↑</button>
+                    <button type='submit' name='Name' id='Name' value='DESC'>↓</button>
+                    </form>
+                    </th>\n
+                    <th>Coste
+                    <form action='Articulos.php' method='GET'>
+                    <button type='submit' name='Cost' id='Cost' value='ASC'>↑</button>
+                    <button type='submit' name='Cost' id='Cost' value='DESC'>↓</button>
+                    </form>
+                    </th>\n
+                    <th>Precio
+                    <form action='Articulos.php' method='GET'>
+                    <button type='submit' name='Price' id='Price' value='ASC'>↑</button>
+                    <button type='submit' name='Price' id='Price' value='DESC'>↓</button>
+                    </form>
+                    </th>\n";
 
         if ($_SESSION["enabled"] == 1) {
             echo "<th>Manejo</th> \n
