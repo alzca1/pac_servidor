@@ -20,7 +20,9 @@
 
 
 <?php
+
 session_start();
+$_SESSION['user'] = null;
 
 include "./BaseDatos.php";
 
@@ -30,6 +32,8 @@ if (isset($_POST["login"]) && !empty($_POST["user"]) && !empty($_POST["email"]))
 
     $authentication = authenticateUSer($user, $email);
     $userData = mysqli_fetch_assoc($authentication);
+    $superIDQuery = getSuperID();
+    $superID = mysqli_fetch_assoc($superIDQuery);
 
     // echo $userData['FullName'];
 
@@ -40,6 +44,9 @@ if (isset($_POST["login"]) && !empty($_POST["user"]) && !empty($_POST["email"]))
             $_SESSION['email'] = $userData["Email"];
             $_SESSION['id'] = $userData["UserID"];
             $_SESSION['enabled'] = $userData["Enabled"];
+        }
+        if ($superID["SuperAdmin"] === $userData["UserID"]) {
+            $_SESSION["SuperAdmin"] = true;
         }
     }
 

@@ -166,3 +166,18 @@ function updateProduct($id, $name,$price, $cost,  $category){
 
     mysqli_close($DB);
 }
+
+function getSuperID(){
+    $DB = createConnection("pac3_daw");
+
+    $sql = "SELECT * FROM setup WHERE Host='localhost'";
+    $result = mysqli_query($DB, $sql);
+
+    if ($result) {
+        return $result;
+    } else {
+        echo "No se ha podido actualizar el pedido de la base de datos";
+    }
+
+    mysqli_close($DB);
+}

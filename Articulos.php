@@ -12,9 +12,18 @@
 
 <a href="./Acceso.php">Volver atrás</a>
 <br>
-<form action="formArticulos.php" method="GET">
-    <input type="submit" name="new" value="Nuevo Artículo" />
-</form>
+<?php
+
+if ($_SESSION["enabled"] == 1 || isset($_SESSION["SuperAdmin"])) {
+
+    echo "<form action='formArticulos.php' method='GET'>
+            <input type='submit' name='new' value='Nuevo Artículo' />
+         </form>";
+
+}
+
+?>
+
 
 <br>
 <?php
@@ -52,7 +61,7 @@ if (isset($_SESSION["user"])) {
                         <td>" . $row["Cost"] . "</td>\n
                         <td>" . $row["Price"] . "</td>\n";
 
-            if ($_SESSION["enabled"] == 1) {
+            if ($_SESSION["enabled"] == 1 || isset($_SESSION["SuperAdmin"])) {
                 echo "<td>
                             <form action='formArticulos.php' method='GET'>
                                 <input hidden name='id' value='" . $row["ProductID"] . "'>
