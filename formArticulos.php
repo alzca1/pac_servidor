@@ -62,6 +62,8 @@ if (isset($_SESSION["user"]) && $_SESSION["enabled"] == 1) {
 
     }
     ;
+}else{
+    header("Location: http://localhost/pac/index.php");
 }
 
 ?>

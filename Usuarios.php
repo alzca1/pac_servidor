@@ -21,6 +21,9 @@ include "./BaseDatos.php";
 if (isset($_SESSION["user"]) && $_SESSION["id"] == 10) {
     echo "Bievenido a la sección de usuarios, " . $_SESSION['user'] . "<br> <br>";
     $usersData = getUsers();
+    $superIDQuery = getSuperID();
+    $superID = $superID = mysqli_fetch_assoc($superIDQuery);
+
 
     if (is_string($usersData)) {
         echo $datos;
@@ -42,7 +45,29 @@ if (isset($_SESSION["user"]) && $_SESSION["id"] == 10) {
                         <td>" . $row["Email"] . "</td>\n
                         <td>" . $row["LastAccess"] . "</td>\n
                         <td>" . $row["Enabled"] . "</td>\n
-                        <td><a href='./formArticulos'>Editar</a> <a href='#'>Borrar</a>";
+                        <td>
+                            <form action='formArticulos.php' method='GET'>";
+                            if($row["UserID"] == $superID["SuperAdmin"]){
+                            echo  "<input disabled name='edit' type='submit' value='Editar' />";
+                            }else{
+                                echo  "<input hidden name='id' value='" . $row["ProductID"] . "'>
+                                <input  name='edit' type='submit' value='Editar' />";
+                            }
+                            echo "</form>
+                            </td>
+                        <td>
+                            <form action='formArticulos.php' method='GET'>";
+                            if($row["UserID"] == $superID["SuperAdmin"]){
+                            echo "<input disabled name='delete' type='submit' value='Borrar' />";
+
+                            }else{
+                                echo "<input hidden name='id' value='" . $row["ProductID"] . "'>
+                                <input  name='delete' type='submit' value='Borrar' />";
+                            }
+                            echo "
+                            </form>
+                        </td>
+                    </tr>";
         }
 
     }
