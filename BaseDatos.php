@@ -166,6 +166,8 @@ function addProduct($name, $cost, $price, $category)
 
 }
 
+
+
 function removeProduct($id)
 {
     $DB = createConnection("pac3_daw");

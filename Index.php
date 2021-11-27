@@ -4,20 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Login</title>
 </head>
-
-
-<body>
-    <h1>Bienvenido a Webstore</h1>
-    <form action="index.php" method="POST">
-        <label>Nombre de Usuario</label>
-        <input required type="text" name="user" />
-        <label>Correo Electrónico</label>
-        <input required type="email" name="email"/>
-        <input type="submit" name="login" value="Entrar" />
-    </form>
-
 
 <?php
 
@@ -39,7 +28,6 @@ if (isset($_POST["login"]) && !empty($_POST["user"]) && !empty($_POST["email"]))
     // echo $userData['FullName'];
 
     if ($authentication) {
-        echo "Bienvenido " . $userData["FullName"] . ", pulsa <a href='./acceso.php'>AQUÍ</a> para continuar";
         if (!isset($_SESSION["user"])) {
             $_SESSION['user'] = $userData["FullName"];
             $_SESSION['email'] = $userData["Email"];
@@ -54,5 +42,33 @@ if (isset($_POST["login"]) && !empty($_POST["user"]) && !empty($_POST["email"]))
 }
 
 ?>
+
+<body>
+    <section class="card m-5 border-white">
+        <div class="mx-auto my-3">
+        <h1 class="card-title">Bienvenido a Webstore</h1>
+        <div classs="card-body">
+        <form action="index.php" method="POST">
+            <div class="mb-3">
+                <label class="form-label">Usuario: </label>
+                <input class="form-control" required type="text" name="user" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email: </label>
+                <input class="form-control" required type="email" name="email"/>
+            </div>
+            <input class="btn btn-primary mb-5 mt-2" type="submit" name="login" value="Entrar" />
+        </form>
+    <?php
+if ($authentication) {
+    echo "<span class='alert alert-success mb-3'>Bienvenido " . $userData["FullName"] . ", pulsa <a href='./acceso.php'>AQUÍ</a> para continuar </span>";
+}
+?>
+</div>
+</div>
+    </section>
+
+
+
 </body>
 </html>
